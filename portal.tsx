@@ -4,7 +4,7 @@ import { LINQ } from 'berish-linq';
 
 type listenerType = (value: JSX.Element[]) => any;
 
-export interface StaticComponentProps<T = any> {
+export interface IStaticComponentProps<T = any> {
   resolve?: (obj?: T) => void;
   reject?: (reason?: any) => void;
   getContainer?: (instance: React.ReactInstance) => HTMLElement;
@@ -18,7 +18,7 @@ class Portal {
     return ringle.getSingleton(Portal, scope);
   }
 
-  create<Resolve, Props, IncomeProps extends Props = Props>(ClassComponent: React.ComponentClass<StaticComponentProps<Resolve> | Props>) {
+  create<Resolve, Props, IncomeProps extends Props = Props>(ClassComponent: React.ComponentClass<IStaticComponentProps<Resolve> | Props>) {
     let createElement = (props?: IncomeProps & { children?: React.ReactNode }) => {
       return new Promise<Resolve>((resolvePromise, rejectPromise) => {
         let resolve = (obj: Resolve) => {
