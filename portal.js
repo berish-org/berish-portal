@@ -52,6 +52,7 @@ var Portal = (function () {
         var _this = this;
         var createElement = function (props) {
             return new Promise(function (resolvePromise, rejectPromise) {
+                var destroy = null;
                 var resolve = function (obj) {
                     destroy();
                     resolvePromise(obj == null ? null : obj);
@@ -61,7 +62,7 @@ var Portal = (function () {
                     rejectPromise(reason);
                 };
                 var element = React.createElement(ClassComponent, __assign({ resolve: resolve, reject: reject }, (props || {})));
-                var destroy = _this.add(element);
+                destroy = _this.add(element);
             });
         };
         return createElement;

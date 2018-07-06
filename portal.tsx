@@ -21,6 +21,7 @@ class Portal {
   create<Resolve, Props, IncomeProps extends Props = Props>(ClassComponent: React.ComponentClass<IStaticComponentProps<Resolve> | Props>) {
     let createElement = (props?: IncomeProps & { children?: React.ReactNode }) => {
       return new Promise<Resolve>((resolvePromise, rejectPromise) => {
+        let destroy: () => void = null;
         let resolve = (obj: Resolve) => {
           destroy();
           resolvePromise(obj == null ? null : obj);
@@ -30,7 +31,7 @@ class Portal {
           rejectPromise(reason);
         };
         let element = <ClassComponent resolve={resolve} reject={reject} {...(props || {}) as any} />;
-        let destroy = this.add(element);
+        destroy = this.add(element);
       });
     };
     return createElement;
