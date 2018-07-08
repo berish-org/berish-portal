@@ -1,17 +1,34 @@
 {
   "name": "berish-react-portals",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Library for creating global DOM elements and working with them as with React components",
-  "main": "index.js",
-  "author": {
-    "name": "Berishev Ravil"
-  },
   "dependencies": {
-    "berish-linq": "^1.0.2",
-    "berish-ringle": "^1.1.0",
+    "berish-linq": "^2.0.0",
+    "berish-ringle": "^2.0.1",
     "react": "^16.4.1"
   },
   "devDependencies": {
     "@types/react": "^16.4.6"
-  }
+  },
+  "main": "dist/index",
+  "typings": "dist/index",
+  "scripts": {
+    "prepublishOnly": "npm run compile",
+    "compile": "npm run clean && tsc -p .",
+    "watch": "tsc -w -p .",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://quadraticstudio@bitbucket.org/berishev/berish-react-portals.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Berishev Ravil"
+  },
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/lib"
+  ]
 }
