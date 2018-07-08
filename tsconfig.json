@@ -1,20 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "lib": ["dom", "es6"],
-    "sourceMap": true,
+    "module": "commonjs",
     "jsx": "react",
+    "lib": ["dom", "es6"],
+    "target": "es6",
+    "outDir": "./dist",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "strict": false,
-    "preserveConstEnums": true,
-    "removeComments": true,
-    "noImplicitReturns": true,
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "declaration": true,
-    "experimentalDecorators": true,
+    "declaration": true
   },
-  "exclude": ["node_modules"]
+  "include": ["lib/**/*.ts", "index.tsx"]
 }
