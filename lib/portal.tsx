@@ -18,7 +18,9 @@ class Portal {
     return ringle.getSingleton(Portal, scope);
   }
 
-  create<Resolve, Props, IncomeProps extends Props = Props>(ClassComponent: React.ComponentClass<IStaticComponentProps<Resolve> | Props>) {
+  create<Resolve, Props, IncomeProps extends Props = Props>(
+    ClassComponent: React.ComponentClass<IStaticComponentProps<Resolve> | Props>
+  ) {
     let createElement = (props?: IncomeProps & { children?: React.ReactNode }) => {
       return new Promise<Resolve>((resolvePromise, rejectPromise) => {
         let destroy: () => void = null;
@@ -39,6 +41,7 @@ class Portal {
 
   add = (element: JSX.Element) => {
     this.elements.push(element);
+    this.update();
     return () => {
       this.elements = LINQ.fromArray(this.elements)
         .except([element])
