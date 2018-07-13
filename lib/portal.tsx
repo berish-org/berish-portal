@@ -14,7 +14,7 @@ class Portal {
   elements: JSX.Element[] = [];
   listeners: listenerType[] = [];
 
-  scope(scope: string) {
+  scope(scope?: string) {
     return ringle.getSingleton(Portal, scope);
   }
 
@@ -32,7 +32,7 @@ class Portal {
           destroy();
           rejectPromise(reason);
         };
-        let element = <ClassComponent resolve={resolve} reject={reject} {...(props || {}) as any} />;
+        let element = <ClassComponent key={+new Date()} resolve={resolve} reject={reject} {...(props || {}) as any} />;
         destroy = this.add(element);
       });
     };
@@ -46,6 +46,7 @@ class Portal {
       this.elements = LINQ.fromArray(this.elements)
         .except([element])
         .toArray();
+      this.update();
     };
   };
 

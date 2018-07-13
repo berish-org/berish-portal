@@ -1,25 +1,25 @@
 import * as React from 'react';
 import portal from './portal';
 
-function getPortal(scope: string) {
-  return portal.scope(scope || 'default');
-}
-
 interface IRootProps {
-  portalName: string;
+  portalName?: string;
 }
 
-interface IRootState {}
+interface IRootState {
+  elements: JSX.Element[];
+}
 
 export default class Root extends React.Component<IRootProps, IRootState> {
   private unlistener: () => any = null;
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      elements: []
+    };
   }
 
   componentWillMount() {
-    this.unlistener = getPortal(this.props.portalName).listen(this.update);
+    this.unlistener = portal.scope(this.props.portalName).listen(this.update);
   }
   componentWillUnmount() {
     if (this.unlistener) this.unlistener();
@@ -28,19 +28,26 @@ export default class Root extends React.Component<IRootProps, IRootState> {
   componentWillReceiveProps(nextProps: IRootProps) {
     if (nextProps.portalName != this.props.portalName) {
       if (this.unlistener) this.unlistener();
-      this.unlistener = getPortal(this.props.portalName).listen(this.update);
+      this.unlistener = portal.scope(this.props.portalName).listen(this.update);
     }
   }
 
   update = (elements: JSX.Element[]) => {
-    this.forceUpdate();
+    this.setState({ elements: elements.slice(0, elements.length) });
   };
 
+  shouldComponentUpdate(nextProps: IRootProps, nextState: IRootState) {
+    if (this.state.elements != nextState.elements) return true;
+    if (this.props.portalName != this.props.portalName) return true;
+    return false;
+  }
+
   render() {
+    let elements = portal.scope(this.props.portalName).elements;
     return (
       <React.Fragment>
         {this.props.children}
-        {getPortal(this.props.portalName).elements}
+        {elements.map((m, i) => <React.Fragment key={i}>{m}</React.Fragment>)}
       </React.Fragment>
     );
   }
