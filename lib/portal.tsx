@@ -25,12 +25,12 @@ class Portal {
       return new Promise<Resolve>((resolvePromise, rejectPromise) => {
         let destroy: () => void = null;
         let resolve = (obj: Resolve) => {
-          destroy();
           resolvePromise(obj == null ? null : obj);
+          destroy();
         };
         let reject = (reason: any) => {
-          destroy();
           rejectPromise(reason);
+          destroy();
         };
         let element = <ClassComponent key={+new Date()} resolve={resolve} reject={reject} {...(props || {}) as any} />;
         destroy = this.add(element);
@@ -60,13 +60,16 @@ class Portal {
   };
 
   update = () => {
-    for (let listener of this.listeners) {
-      try {
-        setTimeout(() => listener(this.elements), 0);
-      } catch (err) {
-        console.log(err);
+    const _update = () => {
+      for (let listener of this.listeners) {
+        try {
+          setTimeout(() => listener(this.elements), 0);
+        } catch (err) {
+          console.log(err);
+        }
       }
-    }
+    };
+    setTimeout(() => _update(), 0);
   };
 }
 
