@@ -9,7 +9,7 @@ interface IRootState {
   elements: JSX.Element[];
 }
 
-export default class Root extends React.Component<IRootProps, IRootState> {
+export default class Root extends React.PureComponent<IRootProps, IRootState> {
   private unlistener: () => any = null;
   constructor(props) {
     super(props);
@@ -35,12 +35,6 @@ export default class Root extends React.Component<IRootProps, IRootState> {
   update = (elements: JSX.Element[]) => {
     this.setState({ elements: elements.slice(0, elements.length) });
   };
-
-  shouldComponentUpdate(nextProps: IRootProps, nextState: IRootState) {
-    if (this.state.elements != nextState.elements) return true;
-    if (this.props.portalName != this.props.portalName) return true;
-    return false;
-  }
 
   render() {
     let elements = portal.scope(this.props.portalName).elements;
